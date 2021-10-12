@@ -44,3 +44,5 @@ function repeat(block) {
     Block.run(children);
   }
 }
+
+menuItem("Repeat", repeat, 10, []);
