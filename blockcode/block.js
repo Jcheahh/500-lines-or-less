@@ -63,5 +63,16 @@ function blockScript(block) {
 }
 
 function runBlocks(blocks) {
-    blocks.forEach(function(block){ trigger("run", block); });
+  blocks.forEach(function (block) {
+    trigger("run", block);
+  });
 }
+
+window.Block = {
+  create: createBlock,
+  value: blockValue,
+  contents: blockContents,
+  script: blockScript,
+  run: runBlocks,
+  trigger: trigger,
+};
