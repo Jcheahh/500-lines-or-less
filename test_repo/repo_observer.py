@@ -2,7 +2,6 @@ import argparse
 import os
 import re
 import socket
-import SocketServer
 import subprocess
 import sys
 import time
@@ -54,3 +53,7 @@ def poll():
                 raise Exception("Could not dispatch the test: %s" %
                                 response)
         time.sleep(5)
+
+
+if __name__ == "__main__":
+    poll()
