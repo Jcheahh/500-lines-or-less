@@ -2,7 +2,7 @@ import argparse
 import os
 import re
 import socket
-import SocketServer
+import socketserver
 import time
 import threading
 
@@ -25,19 +25,19 @@ def dispatch_tests(server, commit_id):
         time.sleep(2)
 
 
-class ThreadingTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
-    runner = []
+class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    runners = []
     dead = False
     dispatch_commits = {}
     pending_commits = []
 
 
-class DispatcherHandler(SocketServer.BaseRequestHandler):
+class DispatcherHandler(socketserver.BaseRequestHandler):
     command_re = re.compile(r"(\w+)(:.+)*")
     BUF_SIZE = 1024
 
     def handle(self):
-        self.data = self.request.recv(self.BUF_SIZE).strip()
+        self.data = self.request.recv(self.BUF_SIZE).strip().decode('utf-8')
         command_groups = self.command_re.match(self.data)
         if not command_groups:
             self.request.sendall("Invalid command")
@@ -137,3 +137,7 @@ def serve():
         server.dead = True
         runner_heartbeat.join()
         redistributor.join()
+
+
+if __name__ == "__main__":
+    serve()
